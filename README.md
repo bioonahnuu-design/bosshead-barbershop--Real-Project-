@@ -1,198 +1,592 @@
-BOSSHEAD Barbershop Booking System
+BOSSHEAD Barbershop — Booking System
 
-A real-world, responsive booking web application built for BOSSHEAD Barbershop Surabaya. The system replaces manual reservation notes with a structured online booking flow that customers can access directly from their phones.
+<p align="center">
+  <strong>Real-world booking web application for BOSSHEAD Barbershop, Surabaya.</strong><br/>
+  From WhatsApp + handwritten reservations to a structured digital booking workflow.
+</p>
 
-Live Demo
+<p align="center">
+  <a href="https://bosshead-barbershop-real-project.vercel.app"><strong>Live Website</strong></a>
+  ·
+  <a href="https://github.com/bioonahnuu-design/bosshead-barbershop--Real-Project-">GitHub Repository</a>
+</p>
 
-Open the deployed website
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Vite-Frontend-646CFF?logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3FCF8E?logo=supabase&logoColor=white" alt="Supabase" />
+  <img src="https://img.shields.io/badge/Vercel-Deployed-000000?logo=vercel&logoColor=white" alt="Vercel" />
+</p>
 
-The Problem
+About the Project
 
-Previously, customers contacted the cashier through WhatsApp. The cashier then copied each reservation into a paper notebook, creating several operational risks:
+BOSSHEAD Booking System is not a tutorial or fictional case study. It started from an operational problem I encountered while working as a cashier at BOSSHEAD Barbershop in Surabaya.
 
-booking details could be written incorrectly or forgotten;
+The project is being developed with permission from the barbershop owner and is designed to become a system that can be used in the shop's day-to-day booking process.
 
-two customers could request the same barber and time slot;
+Instead of building a generic reservation platform for restaurants, cafés, salons, and other businesses, this project intentionally focuses on the actual workflow and visual identity of BOSSHEAD Barbershop.
 
-cancellations were difficult to track;
+The Real Problem
 
-customer and reservation data was not stored in a structured system.
+Before this system
 
-The Solution
+The booking process depended heavily on WhatsApp and a physical notebook:
 
-This project turns that manual process into a mobile-friendly booking flow:
+A customer contacted the cashier through WhatsApp.
 
-Service → Barber → Date → Time → Customer Details → Review → Confirmation
+The customer asked whether a barber and time were available.
 
-After confirmation, the reservation is saved in Supabase and the customer receives a booking code. WhatsApp remains available as a communication channel without being the system's only source of booking data.
+The cashier checked the schedule manually.
 
-Main Features
+If available, the cashier wrote the customer's reservation in a notebook.
 
-responsive BOSSHEAD-branded landing page;
+When a customer cancelled or changed the schedule, the notebook had to be updated manually.
 
-service and price selection;
+This process works for a small number of reservations, but it creates avoidable operational problems as bookings increase.
 
-four barber slots, ready to use with real barber names;
+Problems identified
 
-calendar-based visit date selection;
+Problem
 
-available time slots from 11:00 to 21:00;
+Operational Impact
 
-customer name, WhatsApp number, and optional notes;
+Reservations are written manually
 
-booking review before submission;
+Data can be missed, duplicated, or difficult to search
 
-Supabase database persistence;
+Availability is checked by the cashier
 
-unique booking confirmation code;
+Customers depend on staff before they can reserve
 
-prevention of duplicate barber time slots;
+Barber schedules are tracked manually
 
-booking cancellation flow so cancelled slots become available again;
+Higher risk of two customers requesting the same slot
 
-WhatsApp confirmation message containing booking details;
+Cancellation is handled through chat
 
-mobile-friendly gallery, promotion, membership, location, and service sections.
+A cancelled slot may not immediately return to availability
 
-Technology Stack
+Booking history is stored on paper/chat
 
-Layer
+Difficult to organize and use as operational data
+
+WhatsApp acts as the booking system
+
+Chat remains useful, but it is not a structured reservation database
+
+Problem-Solving Approach
+
+The goal is not to eliminate WhatsApp. The goal is to separate communication from reservation management.
+
+OLD FLOW
+
+Customer
+↓
+WhatsApp Cashier
+↓
+Cashier checks manually
+↓
+Paper notebook
+↓
+Manual cancellation / schedule changes
+
+NEW FLOW
+
+Customer
+↓
+BOSSHEAD Website
+↓
+Choose Service → Barber → Date → Time
+↓
+Enter Customer Details
+↓
+Review Booking
+↓
+Supabase Database
+↓
+Booking Code + WhatsApp communication
+
+Customers can make their own reservations from the website, while the cashier can still help customers who prefer to book through WhatsApp. Both flows are intended to end in the same structured booking system.
+
+Booking Workflow
+
+The customer booking experience is intentionally simple and mobile-first:
+
+1. Choose a service
+
+Initial services included in the MVP:
+
+Service
+
+Price
+
+Estimated Duration
+
+Haircut Only
+
+Rp50.000
+
+±45 minutes
+
+BOSSHEAD Package
+
+Rp60.000
+
+±45 minutes
+
+The complete BOSSHEAD price list can be added progressively without changing the booking architecture.
+
+2. Choose a barber
+
+The interface currently provides four barber slots. The data structure is designed so the actual barber names can be maintained without changing the rest of the booking flow.
+
+3. Choose a visit date
+
+Customers select the visit date through a date input instead of typing the date manually.
+
+4. Choose an available time
+
+BOSSHEAD operates from 11:00 to 21:00 WIB. The booking interface provides scheduled time slots while considering service duration and barber availability.
+
+5. Complete customer details
+
+The booking stores the information needed by the shop:
+
+customer name;
+
+WhatsApp number;
+
+optional haircut/request notes.
+
+6. Review before saving
+
+Before confirmation, the customer can review:
+
+service;
+
+selected barber;
+
+date;
+
+time;
+
+price;
+
+duration;
+
+contact information;
+
+notes.
+
+This reduces accidental bookings caused by incorrect selections.
+
+7. Save and confirm
+
+After confirmation, the booking is stored in Supabase and the system generates a booking reference/code. WhatsApp can then be used for communication using the reservation information already collected by the system.
+
+Handling Slot Conflicts
+
+Preventing schedule collisions is one of the most important requirements of the project.
+
+A slot is not treated only as a time such as 14:00. Availability depends on the combination of:
+
+Barber + Visit Date + Start Time + Booking Status
+
+This matters because four barbers can serve customers at the same time, but the same barber must not have two active reservations for the same schedule.
+
+The database is therefore the source of truth for bookings rather than the customer's browser alone.
+
+Cancellation Logic
+
+Cancellation is part of the booking lifecycle, not simply a deleted row.
+
+Active Booking
+↓
+Customer cancels
+↓
+Status → cancelled
+↓
+That barber/date/time is available again
+
+Keeping the reservation with a cancelled status makes the booking history more useful than permanently deleting the record.
+
+Current Features
+
+Customer side
+
+Responsive BOSSHEAD landing page
+
+Real venue and BOSSHEAD visual assets
+
+Service selection
+
+Barber selection
+
+Visit date selection
+
+Time-slot selection
+
+Customer form
+
+Optional customer notes
+
+Booking review step
+
+Database-backed booking submission
+
+Booking reference/code
+
+WhatsApp booking communication
+
+Cancellation support
+
+Promotion / price-list / membership content
+
+Responsive layout for mobile and desktop
+
+Data layer
+
+Supabase PostgreSQL database
+
+Structured bookings data
+
+Booking status lifecycle
+
+Customer and reservation information stored together
+
+Environment-based Supabase configuration
+
+Booking Data Model
+
+The booking record contains the operational information needed to manage a reservation.
+
+Field
+
+Purpose
+
+id
+
+Unique database identifier
+
+booking_code
+
+Human-readable booking reference
+
+service_id / service_name
+
+Selected treatment
+
+barber_id / barber_name
+
+Selected barber
+
+customer_name
+
+Customer identity
+
+customer_whatsapp
+
+Customer contact
+
+customer_notes
+
+Optional request / haircut note
+
+starts_at
+
+Reservation start
+
+ends_at
+
+Estimated reservation end
+
+duration_minutes
+
+Service duration
+
+price
+
+Booking price
+
+status
+
+Booking lifecycle state
+
+source
+
+Origin of the reservation
+
+created_at / updated_at
+
+Record timestamps
+
+Booking lifecycle
+
+pending → confirmed → completed
+│ │
+└───────────┴────→ cancelled
+
+This prepares the system for a future staff dashboard without redesigning the customer booking database.
+
+UI / UX Direction
+
+The interface is designed around the actual atmosphere of BOSSHEAD rather than a generic SaaS template.
+
+Design characteristics:
+
+dark charcoal / black base;
+
+BOSSHEAD amber accent;
+
+bold condensed typography;
+
+real BOSSHEAD venue photography;
+
+responsive layouts for customers opening the link from WhatsApp or Instagram;
+
+subtle animation and hover effects;
+
+promotion, membership, price list, gallery, map, and booking presented as parts of one brand experience.
+
+The priority is to make the site visually distinctive while remaining practical on mobile devices and cellular connections.
+
+Architecture
+
+┌───────────────────────┐
+│ Customer │
+│ Mobile / Desktop Web │
+└───────────┬───────────┘
+│
+▼
+┌───────────────────────┐
+│ React + TypeScript │
+│ Vite Web Application │
+└───────────┬───────────┘
+│
+▼
+┌───────────────────────┐
+│ Supabase Client │
+└───────────┬───────────┘
+│
+▼
+┌───────────────────────┐
+│ Supabase PostgreSQL │
+│ Booking Data │
+└───────────────────────┘
+
+Deployment: Vercel
+Communication: WhatsApp
+
+Tech Stack
+
+Category
 
 Technology
 
-Frontend
+Why it is used
 
-React 19, TypeScript
+UI
 
-Build tool
+React 19
+
+Component-based interactive booking flow
+
+Language
+
+TypeScript
+
+Safer data structures for services, barbers, and bookings
+
+Build Tool
 
 Vite
 
+Fast local development and production build
+
 Styling
 
-CSS, responsive layouts, animations
+CSS
+
+Custom BOSSHEAD branding and responsive UI
 
 Database
 
 Supabase PostgreSQL
 
-Data client
+Persistent structured booking data
+
+Client SDK
 
 @supabase/supabase-js
 
-Deployment
+Frontend-to-Supabase integration
+
+Hosting
 
 Vercel
 
-Version control
+Production deployment and GitHub integration
 
-Git and GitHub
+Version Control
 
-Booking Statuses
+Git + GitHub
 
-The database is designed to support operational booking states:
-
-pending — reservation submitted and awaiting handling;
-
-confirmed — reservation accepted;
-
-completed — service finished;
-
-cancelled — reservation cancelled and its slot can be booked again.
-
-Security Notes
-
-Supabase credentials are read from environment variables.
-
-.env.local is ignored by Git and must never be committed.
-
-Only the Supabase publishable key is used in the browser.
-
-Database access should remain protected with Row Level Security policies.
-
-The database password and service-role key must never be placed in frontend code.
-
-Run Locally
-
-Requirements
-
-Node.js 20 or newer
-
-npm
-
-a Supabase project
-
-Installation
-
-git clone https://github.com/bioonahnuu-design/bosshead-barbershop--Real-Project-.git
-cd bosshead-barbershop--Real-Project-
-npm install
-
-Create a .env.local file in the project root:
-
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
-
-Start the development server:
-
-npm run dev
-
-Create a production build:
-
-npm run build
+Development history and portfolio documentation
 
 Project Structure
 
 bosshead-booking/
-├── public/ # Venue, promo, membership, and gallery assets
+├── public/
+│ ├── gallery/ # BOSSHEAD atmosphere / gallery assets
+│ ├── membership/ # Membership visuals
+│ ├── promo/ # Active promotion assets
+│ ├── services/ # Price-list / service assets
+│ └── venue/ # BOSSHEAD venue photography
+│
 ├── src/
 │ ├── components/
-│ │ └── booking/ # Booking steps, customer form, and confirmation
+│ │ └── booking/ # Booking UI, customer form, confirmation
 │ ├── lib/
-│ │ └── supabase.ts # Supabase browser client
-│ ├── App.tsx # Main page composition
-│ ├── App.css # Main visual system
-│ └── main.tsx # React entry point
-├── .env.local # Local environment variables; never commit
+│ │ └── supabase.ts # Supabase client configuration
+│ ├── App.tsx
+│ ├── App.css
+│ └── main.tsx
+│
+├── .env.local # Local only — never commit
 ├── package.json
 └── README.md
 
-Current Status
+Run Locally
 
-The customer booking MVP is live and connected to the database. The next major milestone is an authenticated admin dashboard where BOSSHEAD staff can view, confirm, complete, and cancel reservations without opening the Supabase dashboard.
+Prerequisites
+
+Node.js
+
+npm
+
+Supabase project
+
+1. Clone the repository
+
+git clone https://github.com/bioonahnuu-design/bosshead-barbershop--Real-Project-.git
+cd bosshead-barbershop--Real-Project-
+
+2. Install dependencies
+
+npm install
+
+3. Configure environment variables
+
+Create .env.local in the project root:
+
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
+
+Do not commit .env.local.
+
+4. Start development server
+
+npm run dev
+
+5. Production build
+
+npm run build
+
+Security Notes
+
+Environment-specific configuration is kept outside the repository.
+
+.env.local is ignored by Git.
+
+The frontend uses the Supabase publishable key, not a database password or service-role secret.
+
+Database authorization should be enforced through Supabase Row Level Security policies.
+
+A production admin interface must use authentication and appropriate authorization before staff-only operations are exposed.
+
+What I Learned
+
+This project is more than a frontend exercise. It required translating a real workplace process into software.
+
+Key lessons include:
+
+identifying an operational problem before choosing technology;
+
+designing a booking flow around actual customer behaviour;
+
+separating services, barbers, schedules, customers, and booking states;
+
+treating the database as the source of truth for availability;
+
+handling cancellation as application state instead of deleting history;
+
+integrating React with a hosted PostgreSQL backend;
+
+managing environment variables safely;
+
+deploying a real client project and maintaining it through GitHub.
 
 Roadmap
 
-BOSSHEAD-branded responsive website
+The project is intentionally being developed in phases.
 
-Service and barber selection
+Phase 1 — Customer Booking MVP ✅
 
-Date and time selection
+BOSSHEAD branded website
 
-Customer form and booking review
+Responsive booking experience
+
+Service / barber / date / time selection
+
+Customer information and booking review
 
 Supabase booking persistence
 
-Booking confirmation code
+Confirmation reference
 
-Slot conflict protection
+Cancellation flow
 
-Booking cancellation support
+Vercel production deployment
 
-Vercel deployment
+Phase 2 — Staff Operations 🚧
 
-Staff authentication
+Authenticated staff/admin login
 
-Admin booking dashboard
+Daily booking dashboard
 
-Barber schedule management
+Confirm / complete / cancel booking from dashboard
 
-Automatic WhatsApp chatbot integration
+Cashier manual booking entry for WhatsApp customers
 
-PWA installation support
+Barber availability management
+
+Search and filter reservations
+
+Phase 3 — Automation
+
+Optional WhatsApp chatbot integration
+
+Automatic booking confirmation / reminder
+
+Reschedule workflow
+
+Basic booking analytics
+
+PWA support
+
+The core booking system is intentionally designed to remain usable even without a paid WhatsApp API. Chatbot integration is an enhancement, not a dependency.
+
+Why This Project Matters
+
+The value of this project is not its number of features. It demonstrates the complete path from a real operational problem to a deployable software solution:
+
+Observe a real problem → understand the workflow → design a solution → build the system → connect real data → deploy → improve with user feedback.
+
+That is the main reason BOSSHEAD Booking System is part of my portfolio.
 
 Author
 
-Nahnu RohmaniaInformatics Engineering student at Universitas 17 Agustus 1945 Surabaya.
+Nahnu RohmaniaInformatics Engineering — Universitas 17 Agustus 1945 Surabaya
 
-This project was developed from a real operational problem with permission from BOSSHEAD Barbershop and is intended to become a system used in day-to-day work.
+Built as a real-world project for BOSSHEAD Barbershop, Surabaya, with permission from the business owner.
