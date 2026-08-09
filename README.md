@@ -590,3 +590,7 @@ Author
 Nahnu RohmaniaInformatics Engineering — Universitas 17 Agustus 1945 Surabaya
 
 Built as a real-world project for BOSSHEAD Barbershop, Surabaya, with permission from the business owner.
+
+<p align="center">
+  <strong>LOOK SHARP. STAY BOSS.</strong>
+</p>
